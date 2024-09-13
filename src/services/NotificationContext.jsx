@@ -10,7 +10,7 @@ const notificationReducer = (state, action) => {
     case 'notify':
       return {
         message: action.payload.message,
-        status: action.payload.status || true,
+        status: action.payload.status,
       };
     case 'clear':
       return initialState;
@@ -20,12 +20,14 @@ const notificationReducer = (state, action) => {
 
 const NotificationContext = createContext();
 
-export const NotificationContextProvider = props => {
-  const [notification, dispatch] = useReducer(notificationReducer, initialState);
+export const NotificationContextProvider = (props) => {
+  const [notification, notificationDispatch] = useReducer(notificationReducer, initialState);
 
-  <NotificationContext.Provider value={[notification, dispatch]}>
-    {props.children}
-  </NotificationContext.Provider>
+  return (
+    <NotificationContext.Provider value={[notification, notificationDispatch]}>
+      {props.children}
+    </NotificationContext.Provider>
+  )
 };
 
 export const useNotificationValue = () => {
@@ -36,6 +38,17 @@ export const useNotificationValue = () => {
 export const useNotificationDispatch = () => {
   const notificationAndDispatch = useContext(NotificationContext);
   return notificationAndDispatch[1];
+};
+
+export const notifyWithTimeout = (dispatch, message, status = true, timeout = 5000) => {
+  dispatch({
+    type: 'notify',
+    payload: {
+      message,
+      status,
+    },
+  });
+  setTimeout(() => dispatch({ type: 'clear' }), timeout);
 };
 
 export default NotificationContext;

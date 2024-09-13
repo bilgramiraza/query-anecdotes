@@ -13,6 +13,9 @@ const AnecdoteForm = () => {
       const anecdotes = queryClient.getQueryData(['anecdotes']);
       queryClient.setQueryData(['anecdotes'], anecdotes.concat(newAnecdote));
     },
+    onError: error => {
+      notifyWithTimeout(dispatch, `Error: ${error.response.data.error}`, false, 8000);
+    },
   });
 
 

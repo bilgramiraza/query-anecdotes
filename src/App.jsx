@@ -7,7 +7,6 @@ import { notifyWithTimeout, useNotificationDispatch } from './services/Notificat
 const App = () => {
 
   const dispatch = useNotificationDispatch();
-
   const queryClient = useQueryClient();
 
   const result = useQuery({
@@ -15,7 +14,6 @@ const App = () => {
     queryFn: getAnecdotes,
     retry: false,
   });
-  console.log(JSON.parse(JSON.stringify(result)));
 
   const updateAnecdoteMutation = useMutation({
     mutationFn: updateAnecdote,

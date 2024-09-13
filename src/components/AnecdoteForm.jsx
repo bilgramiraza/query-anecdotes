@@ -23,7 +23,6 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
-    console.log('new anecdote')
     newAnecdoteMutation.mutate({ content, votes: 0 });
     notifyWithTimeout(dispatch, `Created: ${content}`);
   }
